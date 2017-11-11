@@ -5,7 +5,7 @@ A simple, asynchronous chat application using firebase's real time database API
 ```shell
 $ git clone https://github.com/seanpierce/firebase-chat
 $ cd firebase-chat
-$ mkdir inc && touch firebase.js
+$ mkdir inc && touch inc/firebase.js
 ```
 Next add the following to the inc/firebase.js file, replacing the info with your project information, found in the <a href="https://console.firebase.google.com">firebase console</a>
 ``` javascript
