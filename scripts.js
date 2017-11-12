@@ -1,4 +1,5 @@
 $(() => {
+
   // create ref
   const ref = firebase.database().ref('messages/')
 
@@ -23,10 +24,7 @@ $(() => {
   }
 
   // get current user (if exists)
-  let currentUser
-  firebase.auth().onAuthStateChanged(user => {
-    currentUser = user
-  })
+  let currentUser = localStorage.getItem('username')
 
   // database SNAPSHOT
   ref.on('value', snapshot => {
@@ -62,22 +60,16 @@ $(() => {
 
     // user must be logged in to submit messages
     if (currentUser) {
-      sendMessage(currentUser.displayName)
+      sendMessage(currentUser)
     } else {
-      // if user not signed in,
-      // ask user for name,
-      // set name in db
+      // if user not cached,
+      // ask for name,
+      // set name in local storage
       let newUsername = prompt(`Please enter a username:`)
-      // must be at leaset 2 chars
+      // must be at leaset 2 chars and less than 20
       if (newUsername.length > 1 && newUsername.length <= 20) {
-        firebase.auth().signInAnonymously().then(user => {
-          // username successfully set
-          user.updateProfile({
-            displayName: newUsername
-          }).then(
-            sendMessage(newUsername)
-          )
-        })
+        localStorage.setItem('username', newUsername)
+        sendMessage(newUsername)
       } else {
         alert(`username must be between 2 and 20 characters`)
       }
